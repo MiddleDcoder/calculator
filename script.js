@@ -9,21 +9,10 @@ const display = document.querySelector(".display");
 const keys = document.querySelector(".keys");
 
 // Basic math calculations
-const add = function (a, b) {
-  return a + b;
-};
-
-const subtract = function (a, b) {
-  return a - b;
-};
-
-const multiply = function (a, b) {
-  return a * b;
-};
-
-const divide = function (a, b) {
-  return a / b;
-};
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+const divide = (a, b) => a / b;
 
 // Handle Operation
 function operate(op, fNum, sNum) {
@@ -37,6 +26,8 @@ function operate(op, fNum, sNum) {
     return divide(fNum, sNum);
   }
 }
+
+console.log(operate("+", 2, 2));
 
 // Keys
 keys.addEventListener("click", (e) => {
