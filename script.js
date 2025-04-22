@@ -2,8 +2,13 @@
 let firstNum = null;
 let secondNum = null;
 let operator = null;
+let valueDisplay = null;
 
-// start by creating functions for all the basic math
+// Selectors
+const display = document.querySelector(".display");
+const keys = document.querySelector(".keys");
+
+// Basic math calculations
 const add = function (a, b) {
   return a + b;
 };
@@ -20,11 +25,6 @@ const divide = function (a, b) {
   return a / b;
 };
 
-// console.log(add(2, 2));
-// console.log(subtract(2, 2));
-// console.log(multiply(2, 2));
-// console.log(divide(2, 2));
-
 // Handle Operation
 function operate(op, fNum, sNum) {
   if (op == "+") {
@@ -36,4 +36,17 @@ function operate(op, fNum, sNum) {
   } else if (op == "/") {
     return divide(fNum, sNum);
   }
+}
+
+// Keys
+keys.addEventListener("click", (e) => {
+  const { target } = e; // Destructure
+  valueDisplay = target.value;
+  console.log(valueDisplay);
+  populateDisplay();
+});
+
+// Updates the Display
+function populateDisplay() {
+  display.value = valueDisplay;
 }
