@@ -3,6 +3,7 @@ let firstOperand = null;
 let secondOperand = null;
 let operator = null;
 let waitingSecondOperand = true;
+let result;
 
 // Basic math calculations
 const add = (a, b) => a + b;
@@ -52,6 +53,16 @@ keys.addEventListener("click", (e) => {
     populateDisplay(secondOperand);
     console.log(secondOperand);
   }
+
+  // equal selected
+  if (target.classList.contains("equal")) {
+    result = operate(
+      operator,
+      parseFloat(firstOperand),
+      parseFloat(secondOperand)
+    );
+    populateDisplay(result);
+  }
 });
 
 // Updates the Display
@@ -59,6 +70,9 @@ const display = document.querySelector(".display");
 function populateDisplay(updateDisplay) {
   if (display.value === "0") {
     display.value = updateDisplay;
+  } else if (result !== undefined) {
+    display.value = updateDisplay;
+    console.log(result);
   } else {
     display.value += updateDisplay;
   }
