@@ -1,13 +1,8 @@
 // Global variables
-let firstNum = null;
-let secondNum = null;
+let firstOperand = null;
+let secondOperand = null;
 let operator = null;
-let valueDisplay = null;
-
-// Selectors
-const display = document.querySelector(".display");
-const keys = document.querySelector(".keys");
-const defaultValue = display.value;
+let waitingSecondOperand = true;
 
 // Basic math calculations
 const add = (a, b) => a + b;
@@ -30,15 +25,41 @@ function operate(op, fNum, sNum) {
 
 // console.log(operate("+", 2, 2));
 
-// Keys
+// Key buttons
+const keys = document.querySelector(".keys");
 keys.addEventListener("click", (e) => {
   const { target } = e; // Destructure
-  valueDisplay = target.value;
-  console.log(valueDisplay);
-  populateDisplay();
+
+  // first operand
+  if (firstOperand === null) {
+    firstOperand = target.value;
+    populateDisplay(firstOperand);
+    console.log(firstOperand);
+  }
+
+  // operator selection
+  if (target.classList.contains("operator")) {
+    operator = target.value;
+    populateDisplay(operator);
+    console.log(operator);
+    waitingSecondOperand = false;
+    return;
+  }
+
+  // second operand
+  if (secondOperand === null && !waitingSecondOperand) {
+    secondOperand = target.value;
+    populateDisplay(secondOperand);
+    console.log(secondOperand);
+  }
 });
 
 // Updates the Display
-function populateDisplay() {
-  display.value = valueDisplay;
+const display = document.querySelector(".display");
+function populateDisplay(updateDisplay) {
+  if (display.value === "0") {
+    display.value = updateDisplay;
+  } else {
+    display.value += updateDisplay;
+  }
 }
