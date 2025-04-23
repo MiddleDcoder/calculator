@@ -17,9 +17,9 @@ function operate(op, fNum, sNum) {
     return add(fNum, sNum);
   } else if (op == "-") {
     return subtract(fNum, sNum);
-  } else if (op == "*") {
+  } else if (op == "x") {
     return multiply(fNum, sNum);
-  } else if (op == "/") {
+  } else if (op == "÷") {
     return divide(fNum, sNum);
   }
 }
