@@ -7,6 +7,7 @@ let valueDisplay = null;
 // Selectors
 const display = document.querySelector(".display");
 const keys = document.querySelector(".keys");
+const defaultValue = display.value;
 
 // Basic math calculations
 const add = (a, b) => a + b;
@@ -27,7 +28,7 @@ function operate(op, fNum, sNum) {
   }
 }
 
-console.log(operate("+", 2, 2));
+// console.log(operate("+", 2, 2));
 
 // Keys
 keys.addEventListener("click", (e) => {
