@@ -69,6 +69,7 @@ keys.addEventListener("click", (e) => {
 
 // Updates the Display
 const display = document.querySelector(".display");
+
 function populateDisplay(updateDisplay) {
   if (display.value === "0") {
     display.value = updateDisplay;
@@ -79,3 +80,13 @@ function populateDisplay(updateDisplay) {
     display.value += updateDisplay;
   }
 }
+
+// All Clear = RESET
+const allClear = document.querySelector(".all-clear");
+allClear.addEventListener("click", () => {
+  display.value = "0";
+  firstOperand = null;
+  secondOperand = null;
+  operator = null;
+  result = null;
+});
