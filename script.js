@@ -31,6 +31,8 @@ const keys = document.querySelector(".keys");
 keys.addEventListener("click", (e) => {
   const { target } = e; // Destructure
 
+  if (!target.matches("button")) return;
+
   // first operand
   if (firstOperand === null) {
     firstOperand = target.value;
