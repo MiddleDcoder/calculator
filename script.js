@@ -44,7 +44,7 @@ keys.addEventListener("click", (e) => {
   if (!target.matches("button")) return;
 
   // first operand
-  if (waitingSecondOperand) {
+  if (target.classList.contains("num")) {
     firstOperand === null
       ? (firstOperand = target.value)
       : (firstOperand += target.value);
