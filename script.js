@@ -44,7 +44,7 @@ keys.addEventListener("click", (e) => {
   if (!target.matches("button")) return;
 
   // first operand
-  if (target.classList.contains("num")) {
+  if (target.classList.contains("num") && waitingSecondOperand) {
     firstOperand === null
       ? (firstOperand = target.value)
       : (firstOperand += target.value);
@@ -62,9 +62,11 @@ keys.addEventListener("click", (e) => {
   }
 
   // second operand
-  if (secondOperand === null && !waitingSecondOperand) {
-    secondOperand = target.value;
-    populateDisplay(secondOperand);
+  if (!waitingSecondOperand) {
+    secondOperand === null
+      ? (secondOperand = target.value)
+      : (secondOperand += target.value);
+    populateDisplay(target.value);
     console.log(secondOperand);
   }
 
