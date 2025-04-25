@@ -26,6 +26,16 @@ function operate(op, fNum, sNum) {
 
 // console.log(operate("+", 2, 2));
 
+// All Clear = RESET
+const allClear = document.querySelector(".all-clear");
+allClear.addEventListener("click", () => {
+  display.value = "0";
+  firstOperand = null;
+  secondOperand = null;
+  operator = null;
+  result = null;
+});
+
 // Key buttons
 const keys = document.querySelector(".keys");
 keys.addEventListener("click", (e) => {
@@ -34,9 +44,11 @@ keys.addEventListener("click", (e) => {
   if (!target.matches("button")) return;
 
   // first operand
-  if (firstOperand === null) {
-    firstOperand = target.value;
-    populateDisplay(firstOperand);
+  if (waitingSecondOperand) {
+    firstOperand === null
+      ? (firstOperand = target.value)
+      : (firstOperand += target.value);
+    populateDisplay(target.value);
     console.log(firstOperand);
   }
 
@@ -80,13 +92,3 @@ function populateDisplay(updateDisplay) {
     display.value += updateDisplay;
   }
 }
-
-// All Clear = RESET
-const allClear = document.querySelector(".all-clear");
-allClear.addEventListener("click", () => {
-  display.value = "0";
-  firstOperand = null;
-  secondOperand = null;
-  operator = null;
-  result = null;
-});
