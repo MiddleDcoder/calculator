@@ -62,7 +62,7 @@ keys.addEventListener("click", (e) => {
   }
 
   // second operand
-  if (!waitingSecondOperand) {
+  if (target.classList.contains("num") && !waitingSecondOperand) {
     secondOperand === null
       ? (secondOperand = target.value)
       : (secondOperand += target.value);
