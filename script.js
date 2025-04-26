@@ -34,6 +34,7 @@ allClear.addEventListener("click", () => {
   secondOperand = null;
   operator = null;
   result = null;
+  waitingSecondOperand = true;
 });
 
 // Key buttons
@@ -83,11 +84,10 @@ keys.addEventListener("click", (e) => {
 
 // Updates the Display
 const display = document.querySelector(".display");
-
 function populateDisplay(updateDisplay) {
   if (display.value === "0") {
     display.value = updateDisplay;
-  } else if (result !== undefined) {
+  } else if (result !== undefined && result != null) {
     display.value = updateDisplay;
     console.log(result);
   } else {
