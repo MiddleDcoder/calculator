@@ -94,3 +94,12 @@ function populateDisplay(updateDisplay) {
     display.value += updateDisplay;
   }
 }
+
+// Back button
+const back = document.querySelector(".back");
+back.addEventListener("click", () => {
+  const currentDisplay = display.value;
+  const newDisplay = currentDisplay.split("");
+  newDisplay.pop();
+  display.value = newDisplay.join("");
+});
