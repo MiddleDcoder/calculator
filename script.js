@@ -108,5 +108,9 @@ back.addEventListener("click", () => {
     firstOperand.length == 1
       ? (firstOperand = "0")
       : (firstOperand = firstOperand.slice(0, -1));
+  } else if (!waitingSecondOperand) {
+    secondOperand.length == 1
+      ? (secondOperand = "0")
+      : (secondOperand = secondOperand.slice(0, -1));
   }
 });
