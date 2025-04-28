@@ -98,7 +98,15 @@ function populateDisplay(updateDisplay) {
 // Back button
 const back = document.querySelector(".back");
 back.addEventListener("click", () => {
+  // for string display
   display.value.length == 1
     ? (display.value = "0")
     : (display.value = display.value.slice(0, -1));
+
+  // for operands variable
+  if (waitingSecondOperand) {
+    firstOperand.length == 1
+      ? (firstOperand = "0")
+      : (firstOperand = firstOperand.slice(0, -1));
+  }
 });
