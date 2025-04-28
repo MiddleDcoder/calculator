@@ -103,14 +103,16 @@ back.addEventListener("click", () => {
     ? (display.value = "0")
     : (display.value = display.value.slice(0, -1));
 
-  // for operands variable
-  if (waitingSecondOperand) {
+  // for operands and operator variable
+  if (waitingSecondOperand && firstOperand != null) {
     firstOperand.length == 1
-      ? (firstOperand = "0")
+      ? (firstOperand = null)
       : (firstOperand = firstOperand.slice(0, -1));
-  } else if (!waitingSecondOperand) {
+  } else if (!waitingSecondOperand && secondOperand != null) {
     secondOperand.length == 1
-      ? (secondOperand = "0")
+      ? (secondOperand = null)
       : (secondOperand = secondOperand.slice(0, -1));
+  } else if (operator != null && secondOperand == null) {
+    operator = null;
   }
 });
