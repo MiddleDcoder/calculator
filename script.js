@@ -54,7 +54,7 @@ keys.addEventListener("click", (e) => {
   }
 
   // operator selection
-  if (target.classList.contains("operator")) {
+  if (target.classList.contains("operator") && secondOperand == null) {
     if (operator === target.value) return;
     if (operator !== target.value || operator === null) operator = target.value;
     populateDisplay(operator);
@@ -72,10 +72,7 @@ keys.addEventListener("click", (e) => {
   }
 
   // equal selected
-  if (
-    target.classList.contains("equal") ||
-    (target.classList.contains("operator") && secondOperand != null)
-  ) {
+  if (target.classList.contains("equal")) {
     result = operate(
       operator,
       parseFloat(firstOperand),
@@ -83,6 +80,9 @@ keys.addEventListener("click", (e) => {
     );
     populateDisplay(result);
   }
+
+  // stops the other operators to trigger when already complete expression
+  if (target.classList.contains("operator") && secondOperand != null) return;
 });
 
 // Updates the Display
