@@ -55,11 +55,11 @@ keys.addEventListener("click", (e) => {
 
   // operator selection
   if (target.classList.contains("operator")) {
-    operator = target.value;
+    if (operator === target.value) return;
+    if (operator !== target.value || operator === null) operator = target.value;
     populateDisplay(operator);
     console.log(operator);
     waitingSecondOperand = false;
-    return;
   }
 
   // second operand
@@ -84,14 +84,21 @@ keys.addEventListener("click", (e) => {
 
 // Updates the Display
 const display = document.querySelector(".display");
+let pattern = /[+\-÷x]/g;
 function populateDisplay(updateDisplay) {
   if (display.value === "0") {
     display.value = updateDisplay;
   } else if (result !== undefined && result != null) {
     display.value = updateDisplay;
     console.log(result);
+  } else if (pattern.test(display.value) && secondOperand == null) {
+    let str = display.value;
+    let replacedStr = str.replace(pattern, updateDisplay);
+    display.value = replacedStr;
+    console.log(updateDisplay);
   } else {
     display.value += updateDisplay;
+    console.log(updateDisplay);
   }
 }
 
@@ -112,7 +119,5 @@ back.addEventListener("click", () => {
     secondOperand.length == 1
       ? (secondOperand = null)
       : (secondOperand = secondOperand.slice(0, -1));
-  } else if (operator != null && secondOperand == null) {
-    operator = null;
-  }
+  } else if (operator != null && secondOperand == null) operator = null;
 });
