@@ -72,7 +72,10 @@ keys.addEventListener("click", (e) => {
   }
 
   // equal selected
-  if (target.classList.contains("equal")) {
+  if (
+    target.classList.contains("equal") ||
+    (target.classList.contains("operator") && secondOperand != null)
+  ) {
     result = operate(
       operator,
       parseFloat(firstOperand),
