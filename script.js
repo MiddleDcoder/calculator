@@ -79,6 +79,12 @@ keys.addEventListener("click", (e) => {
       parseFloat(secondOperand)
     );
     populateDisplay(result);
+    // next set of expression with the result as firstOperand
+    firstOperand = result;
+    secondOperand = null;
+    operator = null;
+    result = null;
+    waitingSecondOperand = true;
   }
 
   // stops the other operators to trigger when already complete expression
