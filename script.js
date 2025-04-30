@@ -96,9 +96,17 @@ keys.addEventListener("click", (e) => {
 const display = document.querySelector(".display");
 let pattern = /[+\-÷x]/g;
 function populateDisplay(updateDisplay) {
+  // for zero value firstOperand and not operator
   if (display.value === "0" && updateDisplay != operator) {
     display.value = updateDisplay;
     console.log(updateDisplay);
+  }
+  // for secondOperand zero first value
+  else if (display.value.slice(-1) === "0" && !waitingSecondOperand) {
+    let firstOperandOperator = display.value.slice(0, -1);
+    let lastOperand = display.value.slice(-1);
+    let replaceZero = lastOperand.replace(/0/, updateDisplay);
+    display.value = firstOperandOperator + replaceZero;
   }
   // for result
   else if (result !== undefined && result != null) {
@@ -111,7 +119,9 @@ function populateDisplay(updateDisplay) {
     let replacedStr = str.replace(pattern, updateDisplay);
     display.value = replacedStr;
     console.log(updateDisplay);
-  } else {
+  }
+  // for operands and operator
+  else {
     display.value += updateDisplay;
     console.log(updateDisplay);
   }
