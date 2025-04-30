@@ -95,13 +95,17 @@ keys.addEventListener("click", (e) => {
 const display = document.querySelector(".display");
 let pattern = /[+\-÷x]/g;
 function populateDisplay(updateDisplay) {
-  if (display.value === "0") {
+  if (display.value === "0" && updateDisplay != operator) {
     display.value = updateDisplay;
     console.log(updateDisplay);
-  } else if (result !== undefined && result != null) {
+  }
+  // for result
+  else if (result !== undefined && result != null) {
     display.value = updateDisplay;
     console.log(result);
-  } else if (pattern.test(display.value) && secondOperand == null) {
+  }
+  // for replacing operator
+  else if (pattern.test(display.value) && secondOperand == null) {
     let str = display.value;
     let replacedStr = str.replace(pattern, updateDisplay);
     display.value = replacedStr;
