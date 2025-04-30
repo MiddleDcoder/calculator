@@ -57,6 +57,7 @@ keys.addEventListener("click", (e) => {
   if (target.classList.contains("operator") && secondOperand == null) {
     if (operator === target.value) return;
     if (operator !== target.value || operator === null) operator = target.value;
+    if (firstOperand === null) firstOperand = "0";
     populateDisplay(operator);
     console.log(operator);
     waitingSecondOperand = false;
