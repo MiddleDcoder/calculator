@@ -46,7 +46,7 @@ keys.addEventListener("click", (e) => {
 
   // first operand
   if (target.classList.contains("num") && waitingSecondOperand) {
-    firstOperand === null
+    firstOperand === null || firstOperand === "0"
       ? (firstOperand = target.value)
       : (firstOperand += target.value);
     populateDisplay(target.value);
@@ -64,7 +64,7 @@ keys.addEventListener("click", (e) => {
 
   // second operand
   if (target.classList.contains("num") && !waitingSecondOperand) {
-    secondOperand === null
+    secondOperand === null || secondOperand === "0"
       ? (secondOperand = target.value)
       : (secondOperand += target.value);
     populateDisplay(target.value);
@@ -97,6 +97,7 @@ let pattern = /[+\-÷x]/g;
 function populateDisplay(updateDisplay) {
   if (display.value === "0") {
     display.value = updateDisplay;
+    console.log(updateDisplay);
   } else if (result !== undefined && result != null) {
     display.value = updateDisplay;
     console.log(result);
