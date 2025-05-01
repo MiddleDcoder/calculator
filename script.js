@@ -51,6 +51,7 @@ keys.addEventListener("click", (e) => {
       : (firstOperand += target.value);
     populateDisplay(target.value);
     console.log(firstOperand);
+    return;
   }
 
   // operator selection
@@ -61,6 +62,7 @@ keys.addEventListener("click", (e) => {
     populateDisplay(operator);
     console.log(operator);
     waitingSecondOperand = false;
+    return;
   }
 
   // second operand
@@ -70,6 +72,7 @@ keys.addEventListener("click", (e) => {
       : (secondOperand += target.value);
     populateDisplay(target.value);
     console.log(secondOperand);
+    return;
   }
 
   // equal selected
@@ -89,6 +92,7 @@ keys.addEventListener("click", (e) => {
     operator = null;
     result = null;
     waitingSecondOperand = true;
+    return;
   }
 
   // stops the other operators to trigger when already complete expression
@@ -103,6 +107,7 @@ function populateDisplay(updateDisplay) {
   if (display.value === "0" && updateDisplay != operator) {
     display.value = updateDisplay;
     console.log(updateDisplay);
+    return;
   }
   // for secondOperand zero first value
   else if (
@@ -115,11 +120,13 @@ function populateDisplay(updateDisplay) {
     let replaceZero = lastOperand.replace(/0/, updateDisplay);
     display.value = firstOperandOperator + replaceZero;
     console.log(updateDisplay);
+    return;
   }
   // for result
   else if (result !== undefined && result != null) {
     display.value = updateDisplay;
     console.log(result);
+    return;
   }
   // for replacing operator
   else if (pattern.test(display.value) && secondOperand == null) {
@@ -127,6 +134,7 @@ function populateDisplay(updateDisplay) {
     let replacedStr = str.replace(pattern, updateDisplay);
     display.value = replacedStr;
     console.log(updateDisplay);
+    return;
   }
   // for operands and operator
   else {
@@ -163,12 +171,14 @@ decimal.addEventListener("click", (e) => {
   if (firstOperand == null || firstOperand === "0") {
     firstOperand = "0" + target.value;
     populateDisplay(firstOperand);
+    return;
   }
 
   if (firstOperand != null || firstOperand != "0") {
     firstOperand += target.value;
     populateDisplay(target.value);
     console.log(firstOperand);
+    return;
   }
 });
 
