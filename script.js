@@ -151,3 +151,11 @@ back.addEventListener("click", () => {
       : (secondOperand = secondOperand.slice(0, -1));
   } else if (operator != null && secondOperand == null) operator = null;
 });
+
+// Decimal button
+const decimal = document.querySelector(".decimal");
+decimal.addEventListener("click", () => {});
+
+// +/- button functionality
+
+// Percentage button
