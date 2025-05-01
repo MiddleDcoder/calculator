@@ -74,6 +74,9 @@ keys.addEventListener("click", (e) => {
 
   // equal selected
   if (target.classList.contains("equal")) {
+    if (firstOperand == null || secondOperand == null || operator == null)
+      return;
+
     result = operate(
       operator,
       parseFloat(firstOperand),
