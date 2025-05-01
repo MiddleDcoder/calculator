@@ -102,11 +102,16 @@ function populateDisplay(updateDisplay) {
     console.log(updateDisplay);
   }
   // for secondOperand zero first value
-  else if (display.value.slice(-1) === "0" && !waitingSecondOperand) {
+  else if (
+    display.value.slice(-1) === "0" &&
+    !waitingSecondOperand &&
+    result != updateDisplay
+  ) {
     let firstOperandOperator = display.value.slice(0, -1);
     let lastOperand = display.value.slice(-1);
     let replaceZero = lastOperand.replace(/0/, updateDisplay);
     display.value = firstOperandOperator + replaceZero;
+    console.log(updateDisplay);
   }
   // for result
   else if (result !== undefined && result != null) {
