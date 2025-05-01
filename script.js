@@ -168,18 +168,43 @@ const decimal = document.querySelector(".decimal");
 decimal.addEventListener("click", (e) => {
   const { target } = e;
 
-  if (firstOperand.includes(target.value)) return;
-
-  if (firstOperand == null || firstOperand === "0") {
+  // firstOperand
+  if (
+    (firstOperand == null && waitingSecondOperand) ||
+    (firstOperand === "0" && waitingSecondOperand)
+  ) {
     firstOperand = "0" + target.value;
     populateDisplay(firstOperand);
     return;
   }
-
-  if (firstOperand != null || firstOperand != "0") {
+  if (firstOperand.includes(target.value) && waitingSecondOperand) return;
+  if (
+    (firstOperand != null && waitingSecondOperand) ||
+    (firstOperand != "0" && waitingSecondOperand)
+  ) {
     firstOperand += target.value;
     populateDisplay(target.value);
     console.log(firstOperand);
+    return;
+  }
+
+  // secondOperand
+  if (
+    (secondOperand == null && !waitingSecondOperand) ||
+    (secondOperand === "0" && !waitingSecondOperand)
+  ) {
+    secondOperand = "0" + target.value;
+    populateDisplay(secondOperand);
+    return;
+  }
+  if (secondOperand.includes(target.value) && !waitingSecondOperand) return;
+  if (
+    (secondOperand != null && !waitingSecondOperand) ||
+    (secondOperand != "0" && !waitingSecondOperand)
+  ) {
+    secondOperand += target.value;
+    populateDisplay(target.value);
+    console.log(secondOperand);
     return;
   }
 });
