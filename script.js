@@ -168,6 +168,8 @@ const decimal = document.querySelector(".decimal");
 decimal.addEventListener("click", (e) => {
   const { target } = e;
 
+  if (firstOperand.includes(target.value)) return;
+
   if (firstOperand == null || firstOperand === "0") {
     firstOperand = "0" + target.value;
     populateDisplay(firstOperand);
