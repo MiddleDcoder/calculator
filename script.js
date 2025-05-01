@@ -157,7 +157,20 @@ back.addEventListener("click", () => {
 
 // Decimal button
 const decimal = document.querySelector(".decimal");
-decimal.addEventListener("click", () => {});
+decimal.addEventListener("click", (e) => {
+  const { target } = e;
+
+  if (firstOperand == null || firstOperand === "0") {
+    firstOperand = "0" + target.value;
+    populateDisplay(firstOperand);
+  }
+
+  if (firstOperand != null || firstOperand != "0") {
+    firstOperand += target.value;
+    populateDisplay(target.value);
+    console.log(firstOperand);
+  }
+});
 
 // +/- button functionality
 const sign = document.querySelector(".sign");
