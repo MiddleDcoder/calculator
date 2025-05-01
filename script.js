@@ -157,5 +157,9 @@ const decimal = document.querySelector(".decimal");
 decimal.addEventListener("click", () => {});
 
 // +/- button functionality
+const sign = document.querySelector(".sign");
+sign.addEventListener("click", () => {});
 
 // Percentage button
+const percentage = document.querySelector(".percentage");
+percentage.addEventListener("click", () => {});
