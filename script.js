@@ -24,8 +24,6 @@ function operate(op, fNum, sNum) {
   }
 }
 
-// console.log(operate("+", 2, 2));
-
 // All Clear = RESET
 const allClear = document.querySelector(".all-clear");
 allClear.addEventListener("click", () => {
@@ -166,47 +164,30 @@ back.addEventListener("click", () => {
 // Decimal button
 const decimal = document.querySelector(".decimal");
 decimal.addEventListener("click", (e) => {
-  const { target } = e;
+  const decimalValue = e.target.value;
 
-  // firstOperand
-  if (
-    (firstOperand == null && waitingSecondOperand) ||
-    (firstOperand === "0" && waitingSecondOperand)
-  ) {
-    firstOperand = "0" + target.value;
+  if (waitingSecondOperand) {
+    // Handling firstOperand when waiting for second operand
+    if (firstOperand == null || firstOperand === "0") {
+      firstOperand = "0" + decimalValue;
+    } else if (!firstOperand.includes(decimalValue)) {
+      firstOperand += decimalValue;
+    } else {
+      return; // prevent multiple decimals
+    }
     populateDisplay(firstOperand);
     return;
   }
-  if (firstOperand.includes(target.value) && waitingSecondOperand) return;
-  if (
-    (firstOperand != null && waitingSecondOperand) ||
-    (firstOperand != "0" && waitingSecondOperand)
-  ) {
-    firstOperand += target.value;
-    populateDisplay(target.value);
-    console.log(firstOperand);
-    return;
-  }
 
-  // secondOperand
-  if (
-    (secondOperand == null && !waitingSecondOperand) ||
-    (secondOperand === "0" && !waitingSecondOperand)
-  ) {
-    secondOperand = "0" + target.value;
-    populateDisplay(secondOperand);
-    return;
+  // Handling secondOperand when inputting second number
+  if (secondOperand == null || secondOperand === "0") {
+    secondOperand = "0" + decimalValue;
+  } else if (!secondOperand.includes(decimalValue)) {
+    secondOperand += decimalValue;
+  } else {
+    return; // prevent multiple decimals
   }
-  if (secondOperand.includes(target.value) && !waitingSecondOperand) return;
-  if (
-    (secondOperand != null && !waitingSecondOperand) ||
-    (secondOperand != "0" && !waitingSecondOperand)
-  ) {
-    secondOperand += target.value;
-    populateDisplay(target.value);
-    console.log(secondOperand);
-    return;
-  }
+  populateDisplay(secondOperand);
 });
 
 // +/- button functionality
