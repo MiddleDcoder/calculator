@@ -83,7 +83,7 @@ keys.addEventListener("click", (e) => {
       parseFloat(firstOperand),
       parseFloat(secondOperand)
     );
-    populateDisplay(result);
+    populateDisplay(result.toFixed(2));
     // next set of expression with the result as firstOperand
     firstOperand = result;
     secondOperand = null;
