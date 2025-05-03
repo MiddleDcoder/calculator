@@ -83,7 +83,15 @@ keys.addEventListener("click", (e) => {
       parseFloat(firstOperand),
       parseFloat(secondOperand)
     );
-    populateDisplay(result.toFixed(2));
+
+    // check first if needed to be rounded
+    if (hasMoreThanTwoDecimals(result)) {
+      result = Number(result.toFixed(2));
+      populateDisplay(result);
+    } else {
+      populateDisplay(result);
+    }
+
     // next set of expression with the result as firstOperand
     firstOperand = result;
     secondOperand = null;
@@ -96,6 +104,11 @@ keys.addEventListener("click", (e) => {
   // stops the other operators to trigger when already complete expression
   if (target.classList.contains("operator") && secondOperand != null) return;
 });
+
+// Checker if has More Than TwoDecimals
+function hasMoreThanTwoDecimals(num) {
+  return num % 1 !== 0 && num.toString().split(".")[1]?.length > 2;
+}
 
 // Updates the Display
 const display = document.querySelector(".display");
