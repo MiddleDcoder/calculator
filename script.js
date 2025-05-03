@@ -172,6 +172,8 @@ decimal.addEventListener("click", (e) => {
       firstOperand = "0" + decimalValue;
     } else if (!firstOperand.includes(decimalValue)) {
       firstOperand += decimalValue;
+      populateDisplay(decimalValue);
+      return;
     } else {
       return; // prevent multiple decimals
     }
@@ -184,6 +186,8 @@ decimal.addEventListener("click", (e) => {
     secondOperand = "0" + decimalValue;
   } else if (!secondOperand.includes(decimalValue)) {
     secondOperand += decimalValue;
+    populateDisplay(decimalValue);
+    return;
   } else {
     return; // prevent multiple decimals
   }
