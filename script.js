@@ -27,13 +27,17 @@ function operate(op, fNum, sNum) {
 // All Clear = RESET
 const allClear = document.querySelector(".all-clear");
 allClear.addEventListener("click", () => {
+  reset();
+});
+
+function reset() {
   display.value = "0";
   firstOperand = null;
   secondOperand = null;
   operator = null;
   result = null;
   waitingSecondOperand = true;
-});
+}
 
 // Key buttons
 const keys = document.querySelector(".keys");
