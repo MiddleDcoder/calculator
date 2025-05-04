@@ -13,14 +13,15 @@ const divide = (a, b) => a / b;
 
 // Handle Operation
 function operate(op, fNum, sNum) {
-  if (op == "+") {
-    return add(fNum, sNum);
-  } else if (op == "-") {
-    return subtract(fNum, sNum);
-  } else if (op == "x") {
-    return multiply(fNum, sNum);
-  } else if (op == "÷") {
-    return divide(fNum, sNum);
+  switch (op) {
+    case "+":
+      return add(fNum, sNum);
+    case "-":
+      return subtract(fNum, sNum);
+    case "x":
+      return multiply(fNum, sNum);
+    case "÷":
+      return divide(fNum, sNum);
   }
 }
 
