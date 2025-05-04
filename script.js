@@ -48,6 +48,8 @@ keys.addEventListener("click", (e) => {
 
   // first operand
   if (target.classList.contains("num") && waitingSecondOperand) {
+    if (result !== undefined) reset(); // reset if pressed number in result
+
     firstOperand === null || firstOperand === "0"
       ? (firstOperand = target.value)
       : (firstOperand += target.value);
@@ -138,7 +140,7 @@ function populateDisplay(updateDisplay) {
     return;
   }
   // for result
-  else if (result !== undefined && result != null) {
+  else if (result !== undefined && result !== null) {
     display.value = updateDisplay;
     console.log(result);
     return;
