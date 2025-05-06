@@ -22,8 +22,6 @@ function operate(op, fNum, sNum) {
       return multiply(fNum, sNum);
     case "÷":
       return divide(fNum, sNum);
-    default:
-      break;
   }
 }
 
