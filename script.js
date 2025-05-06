@@ -3,7 +3,7 @@ let firstOperand = null;
 let secondOperand = null;
 let operator = null;
 let waitingSecondOperand = true;
-let result;
+let result = null;
 
 // Basic math calculations
 const add = (a, b) => a + b;
@@ -29,6 +29,7 @@ function operate(op, fNum, sNum) {
 const allClear = document.querySelector(".all-clear");
 allClear.addEventListener("click", () => {
   reset();
+  result = null;
 });
 
 function reset() {
@@ -36,7 +37,6 @@ function reset() {
   firstOperand = null;
   secondOperand = null;
   operator = null;
-  result = null;
   waitingSecondOperand = true;
 }
 
@@ -49,7 +49,7 @@ keys.addEventListener("click", (e) => {
 
   // first operand
   if (target.classList.contains("num") && waitingSecondOperand) {
-    if (result !== undefined) reset(); // reset if pressed number in result
+    if (result !== null) reset(); // reset if pressed number in result
 
     firstOperand === null || firstOperand === "0"
       ? (firstOperand = target.value)
@@ -141,7 +141,7 @@ function populateDisplay(updateDisplay) {
     return;
   }
   // for result
-  else if (result !== undefined && result !== null) {
+  else if (result !== null) {
     display.value = updateDisplay;
     console.log(result);
     return;
