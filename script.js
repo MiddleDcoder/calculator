@@ -139,7 +139,7 @@ function populateDisplay(updateDisplay) {
   else if (
     display.value.slice(-1) === "0" &&
     !waitingSecondOperand &&
-    result != updateDisplay
+    secondOperand.length == 1
   ) {
     let firstOperandOperator = display.value.slice(0, -1);
     let lastOperand = display.value.slice(-1);
