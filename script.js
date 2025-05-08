@@ -102,7 +102,7 @@ keys.addEventListener("click", (e) => {
     }
 
     // next set of expression with the result as firstOperand
-    firstOperand = result;
+    firstOperand = result.toString();
     secondOperand = null;
     operator = null;
     result = null;
