@@ -4,6 +4,7 @@ let secondOperand = null;
 let operator = null;
 let waitingSecondOperand = true;
 let result = null;
+let isAlreadyResult = false;
 
 // Basic math calculations
 const add = (a, b) => a + b;
@@ -31,7 +32,6 @@ function operate(op, fNum, sNum) {
 const allClear = document.querySelector(".all-clear");
 allClear.addEventListener("click", () => {
   reset();
-  result = null;
 });
 
 function reset() {
@@ -40,6 +40,7 @@ function reset() {
   secondOperand = null;
   operator = null;
   waitingSecondOperand = true;
+  result = null;
 }
 
 // Key buttons
@@ -51,9 +52,7 @@ keys.addEventListener("click", (e) => {
 
   // first operand
   if (target.classList.contains("num") && waitingSecondOperand) {
-    if (result !== null) reset(); // reset if pressed number in result
-
-    firstOperand === null || firstOperand === "0"
+    firstOperand === null || firstOperand === "0" || isAlreadyResult // reset if pressed number in result
       ? (firstOperand = target.value)
       : (firstOperand += target.value);
     populateDisplay(target.value);
@@ -107,6 +106,7 @@ keys.addEventListener("click", (e) => {
     operator = null;
     result = null;
     waitingSecondOperand = true;
+    isAlreadyResult = true;
     return;
   }
 
@@ -127,6 +127,12 @@ function populateDisplay(updateDisplay) {
   if (display.value === "0" && updateDisplay != operator) {
     display.value = updateDisplay;
     console.log(updateDisplay);
+    return;
+  }
+  if (isAlreadyResult) {
+    display.value = updateDisplay;
+    console.log(updateDisplay);
+    isAlreadyResult = false;
     return;
   }
   // for secondOperand zero first value
@@ -176,6 +182,7 @@ back.addEventListener("click", () => {
     firstOperand.length == 1
       ? (firstOperand = null)
       : (firstOperand = firstOperand.slice(0, -1));
+    isAlreadyResult = false;
   } else if (!waitingSecondOperand && secondOperand != null) {
     secondOperand.length == 1
       ? (secondOperand = null)
