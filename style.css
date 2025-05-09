@@ -31,3 +31,6 @@ input {
 .display {
   text-align: right;
 }
+button.operator {
+  background-color: aqua;
+}

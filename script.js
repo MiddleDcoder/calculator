@@ -225,7 +225,21 @@ decimal.addEventListener("click", (e) => {
 
 // +/- button functionality
 const sign = document.querySelector(".sign");
-sign.addEventListener("click", () => {});
+sign.addEventListener("click", () => {
+  // check wether firstOperand or secondOperand
+  if (waitingSecondOperand) {
+    firstOperand = addSign("first");
+  } else {
+    secondOperand = addSign("second");
+  }
+});
+
+// function to handle the input sign
+function addSign(operandType) {
+  let operand = operandType === "first" ? firstOperand : secondOperand;
+  operand = (parseFloat(operand) * -1).toString();
+  return operand;
+}
 
 // Percentage button
 const percentage = document.querySelector(".percentage");
