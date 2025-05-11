@@ -243,4 +243,20 @@ function addSign(operandType) {
 
 // Percentage button
 const percentage = document.querySelector(".percentage");
-percentage.addEventListener("click", () => {});
+percentage.addEventListener("click", () => {
+  if (waitingSecondOperand) {
+    firstOperand = addPercentage("first");
+  } else {
+    secondOperand = addPercentage("second");
+  }
+});
+
+function addPercentage(operandType) {
+  let operand = operandType === "first" ? firstOperand : secondOperand;
+  if (operandType === "first") {
+    operand = (parseFloat(operand) / 100).toString();
+  } else {
+    operand = ((parseFloat(operand) / 100) * firstOperand).toString();
+  }
+  return operand;
+}
