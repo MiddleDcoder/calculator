@@ -5,6 +5,7 @@ let operator = null;
 let waitingSecondOperand = true;
 let result = null;
 let isAlreadyResult = false;
+let isPercentageFirstOperand = null;
 
 // Basic math calculations
 const add = (a, b) => a + b;
@@ -246,6 +247,7 @@ const percentage = document.querySelector(".percentage");
 percentage.addEventListener("click", () => {
   if (waitingSecondOperand) {
     firstOperand = addPercentage("first");
+    isPercentageFirstOperand = true;
   } else {
     secondOperand = addPercentage("second");
   }
@@ -253,7 +255,10 @@ percentage.addEventListener("click", () => {
 
 function addPercentage(operandType) {
   let operand = operandType === "first" ? firstOperand : secondOperand;
-  if (operandType === "first") {
+  if (
+    operandType === "first" ||
+    (isPercentageFirstOperand && secondOperand === operand)
+  ) {
     operand = (parseFloat(operand) / 100).toString();
   } else {
     operand = ((parseFloat(operand) / 100) * firstOperand).toString();
