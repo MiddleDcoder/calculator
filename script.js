@@ -5,7 +5,7 @@ let operator = null;
 let waitingSecondOperand = true;
 let result = null;
 let isAlreadyResult = false;
-let isPercentageFirstOperand = null;
+let isPercentageFirstOperand = false;
 
 // Basic math calculations
 const add = (a, b) => a + b;
@@ -42,6 +42,7 @@ function reset() {
   operator = null;
   waitingSecondOperand = true;
   result = null;
+  isPercentageFirstOperand = false;
 }
 
 // Key buttons
@@ -234,7 +235,6 @@ sign.addEventListener("click", () => {
     secondOperand = addSign("second");
   }
 });
-
 // function to handle the input sign
 function addSign(operandType) {
   let operand = operandType === "first" ? firstOperand : secondOperand;
@@ -252,7 +252,7 @@ percentage.addEventListener("click", () => {
     secondOperand = addPercentage("second");
   }
 });
-
+// function to handle the input percentage
 function addPercentage(operandType) {
   let operand = operandType === "first" ? firstOperand : secondOperand;
   if (
