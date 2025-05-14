@@ -228,18 +228,36 @@ decimal.addEventListener("click", (e) => {
 // +/- button functionality
 const sign = document.querySelector(".sign");
 sign.addEventListener("click", () => {
+  let displayValue;
   // check wether firstOperand or secondOperand
   if (waitingSecondOperand) {
     firstOperand = addSign("first");
+    displayValue = firstOperand;
   } else {
     secondOperand = addSign("second");
+    displayValue = secondOperand;
   }
+  setDisplay(displayValue);
 });
 // function to handle the input sign
 function addSign(operandType) {
   let operand = operandType === "first" ? firstOperand : secondOperand;
   operand = (parseFloat(operand) * -1).toString();
   return operand;
+}
+
+// Exclusive display value handling
+function setDisplay(valueUpdate) {
+  //add stopping for 0 value
+
+  //logic for firstOperand display and remove negative sign
+  if (display.value.includes("(")) {
+    display.value = `${valueUpdate}`;
+    return;
+  }
+  display.value = `(${valueUpdate})`;
+
+  //for secondOperand before combining them
 }
 
 // Percentage button
