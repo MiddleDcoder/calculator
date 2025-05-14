@@ -157,10 +157,11 @@ function populateDisplay(updateDisplay) {
     return;
   }
   // for replacing operator
-  else if (pattern.test(display.value) && secondOperand == null) {
-    let str = display.value;
+  else if (pattern.test(display.value.slice(-1)) && secondOperand == null) {
+    let first = display.value.slice(0, -1);
+    let str = display.value.slice(-1);
     let replacedStr = str.replace(pattern, updateDisplay);
-    display.value = replacedStr;
+    display.value = first + replacedStr;
     console.log(updateDisplay);
     return;
   }
