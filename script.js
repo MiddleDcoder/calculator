@@ -251,14 +251,21 @@ function addSign(operandType) {
 function setDisplay(valueUpdate) {
   //add stopping for 0 value
 
-  //logic for firstOperand display and remove negative sign
-  if (display.value.includes("(")) {
-    display.value = `${valueUpdate}`;
-    return;
+  if (waitingSecondOperand) {
+    //logic for firstOperand display and remove negative sign
+    if (display.value.includes("(")) {
+      display.value = `${valueUpdate}`;
+      return;
+    }
+    display.value = `(${valueUpdate})`;
+  } else {
+    //for secondOperand before combining them
+    if (display.value.includes("(")) {
+      display.value = `${valueUpdate}`;
+      return;
+    }
+    display.value += `(${valueUpdate})`;
   }
-  display.value = `(${valueUpdate})`;
-
-  //for secondOperand before combining them
 }
 
 // Percentage button
