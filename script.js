@@ -238,7 +238,7 @@ sign.addEventListener("click", () => {
     secondOperand = addSign("second");
     displayValue = secondOperand;
   }
-  setDisplay(displayValue);
+  setDisplaySign(displayValue);
 });
 // function to handle the input sign
 function addSign(operandType) {
@@ -248,9 +248,9 @@ function addSign(operandType) {
 }
 
 // Exclusive display value handling
-function setDisplay(valueUpdate) {
+function setDisplaySign(valueUpdate) {
   //add stopping for 0 value
-  if (firstOperand === "0" || display.value === "0") return;
+  if (firstOperand === "0") return;
 
   let firstOperandDisplay;
   if (!firstOperand.includes("-")) {
