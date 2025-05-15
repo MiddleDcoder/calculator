@@ -249,7 +249,13 @@ function addSign(operandType) {
 
 // Exclusive display value handling
 function setDisplay(valueUpdate) {
+  let firstOperandDisplay;
   //add stopping for 0 value
+  if (!firstOperand.includes("-")) {
+    firstOperandDisplay = firstOperand;
+  } else {
+    firstOperandDisplay = `(${firstOperand})`;
+  }
 
   if (waitingSecondOperand) {
     //logic for firstOperand display and remove negative sign
@@ -260,11 +266,12 @@ function setDisplay(valueUpdate) {
     display.value = `(${valueUpdate})`;
   } else {
     //for secondOperand before combining them
-    if (display.value.includes("(")) {
-      display.value = `${valueUpdate}`;
+    let firstNumAndOperator = firstOperandDisplay + operator;
+    if (!secondOperand.includes("-")) {
+      display.value = firstNumAndOperator + `${valueUpdate}`;
       return;
     }
-    display.value += `(${valueUpdate})`;
+    display.value = firstNumAndOperator + `(${valueUpdate})`;
   }
 }
 
