@@ -249,8 +249,10 @@ function addSign(operandType) {
 
 // Exclusive display value handling
 function setDisplay(valueUpdate) {
-  let firstOperandDisplay;
   //add stopping for 0 value
+  if (firstOperand === "0" || display.value === "0") return;
+
+  let firstOperandDisplay;
   if (!firstOperand.includes("-")) {
     firstOperandDisplay = firstOperand;
   } else {
