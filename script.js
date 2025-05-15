@@ -253,19 +253,16 @@ function setDisplaySign(valueUpdate) {
   if (firstOperand === "0") return;
 
   let firstOperandDisplay;
-  if (!firstOperand.includes("-")) {
-    firstOperandDisplay = firstOperand;
-  } else {
-    firstOperandDisplay = `(${firstOperand})`;
-  }
 
   if (waitingSecondOperand) {
     //logic for firstOperand display and remove negative sign
-    if (display.value.includes("(")) {
+    if (!firstOperand.includes("-")) {
       display.value = `${valueUpdate}`;
+      firstOperandDisplay = firstOperand;
       return;
     }
     display.value = `(${valueUpdate})`;
+    firstOperandDisplay = `(${firstOperand})`;
   } else {
     //for secondOperand before combining them
     let firstNumAndOperator = firstOperandDisplay + operator;
