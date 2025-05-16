@@ -6,7 +6,7 @@ let waitingSecondOperand = true;
 let result = null;
 let isAlreadyResult = false;
 let isPercentageFirstOperand = false;
-let firstOperandDisplay;
+const firstOperandDisplay = { valueFirst: "0" };
 
 // Basic math calculations
 const add = (a, b) => a + b;
@@ -105,6 +105,7 @@ keys.addEventListener("click", (e) => {
 
     // next set of expression with the result as firstOperand
     firstOperand = result.toString();
+    firstOperandDisplay.valueFirst = firstOperand;
     secondOperand = null;
     operator = null;
     result = null;
@@ -257,18 +258,19 @@ function setDisplaySign(valueUpdate) {
     //logic for firstOperand display and remove negative sign
     if (!firstOperand.includes("-")) {
       display.value = `${valueUpdate}`;
-      firstOperandDisplay = firstOperand;
+      firstOperandDisplay.valueFirst = firstOperand;
     } else {
       display.value = `(${valueUpdate})`;
-      firstOperandDisplay = `(${firstOperand})`;
+      firstOperandDisplay.valueFirst = `(${firstOperand})`;
     }
   } else {
     //for secondOperand before combining them
-    let firstNumAndOperator = firstOperandDisplay + operator;
     if (!secondOperand.includes("-")) {
-      display.value = firstNumAndOperator + `${valueUpdate}`;
+      display.value =
+        firstOperandDisplay.valueFirst + operator + `${valueUpdate}`;
     } else {
-      display.value = firstNumAndOperator + `(${valueUpdate})`;
+      display.value =
+        firstOperandDisplay.valueFirst + operator + `(${valueUpdate})`;
     }
   }
 }
