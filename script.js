@@ -6,6 +6,7 @@ let waitingSecondOperand = true;
 let result = null;
 let isAlreadyResult = false;
 let isPercentageFirstOperand = false;
+let firstOperandDisplay;
 
 // Basic math calculations
 const add = (a, b) => a + b;
@@ -132,7 +133,7 @@ function populateDisplay(updateDisplay) {
     return;
   }
   if (isAlreadyResult) {
-    display.value = updateDisplay;
+    display.value += updateDisplay;
     console.log(updateDisplay);
     isAlreadyResult = false;
     return;
