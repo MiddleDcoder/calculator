@@ -284,6 +284,7 @@ percentage.addEventListener("click", () => {
   } else {
     secondOperand = addPercentage("second");
   }
+  populateDisplay("%");
 });
 // function to handle the input percentage
 function addPercentage(operandType) {
