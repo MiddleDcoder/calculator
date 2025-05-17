@@ -1,301 +1,204 @@
-// Global variables
-let firstOperand = null;
-let secondOperand = null;
-let operator = null;
-let waitingSecondOperand = true;
-let result = null;
-let isAlreadyResult = false;
-let isPercentageFirstOperand = false;
-const firstOperandDisplay = { valueFirst: "0" };
+// Calculator State
+let state = {
+  firstOperand: null,
+  secondOperand: null,
+  operator: null,
+  waitingSecondOperand: true,
+  isResult: false,
+  isPercentageFirstOperand: false,
+};
 
-// Basic math calculations
-const add = (a, b) => a + b;
-const subtract = (a, b) => a - b;
-const multiply = (a, b) => a * b;
-const divide = (a, b) => a / b;
-
-// Handle Operation
-function operate(op, fNum, sNum) {
-  switch (op) {
-    case "+":
-      return add(fNum, sNum);
-    case "-":
-      return subtract(fNum, sNum);
-    case "x":
-      return multiply(fNum, sNum);
-    case "÷":
-      return divide(fNum, sNum);
-    default:
-      return null;
-  }
-}
-
-// All Clear = RESET
-const allClear = document.querySelector(".all-clear");
-allClear.addEventListener("click", () => {
-  reset();
-});
-
-function reset() {
-  display.value = "0";
-  firstOperand = null;
-  secondOperand = null;
-  operator = null;
-  waitingSecondOperand = true;
-  result = null;
-  isPercentageFirstOperand = false;
-}
-
-// Key buttons
+const display = document.querySelector(".display");
 const keys = document.querySelector(".keys");
-keys.addEventListener("click", (e) => {
-  const { target } = e; // Destructure
+const allClear = document.querySelector(".all-clear");
+const back = document.querySelector(".back");
+const decimal = document.querySelector(".decimal");
+const sign = document.querySelector(".sign");
+const percentage = document.querySelector(".percentage");
 
-  if (!target.matches("button")) return;
+// Math operations
+const operations = {
+  "+": (a, b) => a + b,
+  "-": (a, b) => a - b,
+  "x": (a, b) => a * b,
+  "÷": (a, b) => a / b,
+};
 
-  // first operand
-  if (target.classList.contains("num") && waitingSecondOperand) {
-    firstOperand === null || firstOperand === "0" || isAlreadyResult // reset if pressed number in result
-      ? (firstOperand = target.value)
-      : (firstOperand += target.value);
-    populateDisplay(target.value);
-    console.log(firstOperand);
-    return;
+function operate(op, a, b) {
+  return operations[op] ? operations[op](a, b) : null;
+}
+
+function resetCalculator() {
+  state = {
+    firstOperand: null,
+    secondOperand: null,
+    operator: null,
+    waitingSecondOperand: true,
+    isResult: false,
+    isPercentageFirstOperand: false,
+  };
+  updateDisplay("0");
+}
+
+function updateDisplay(value) {
+  display.value = value;
+}
+
+function appendToDisplay(value) {
+  if (display.value === "0" || state.isResult) {
+    updateDisplay(value);
+    state.isResult = false;
+  } else {
+    updateDisplay(display.value + value);
   }
+}
 
-  // operator selection
-  if (target.classList.contains("operator") && secondOperand == null) {
-    if (operator === target.value) return;
-    if (operator !== target.value || operator === null) operator = target.value;
-    if (firstOperand === null) firstOperand = "0";
-    populateDisplay(operator);
-    console.log(operator);
-    waitingSecondOperand = false;
-    return;
+function handleNumber(num) {
+  if (state.waitingSecondOperand) {
+    state.firstOperand = state.firstOperand && !state.isResult
+      ? state.firstOperand + num
+      : num;
+    appendToDisplay(num);
+  } else {
+    state.secondOperand = state.secondOperand
+      ? state.secondOperand + num
+      : num;
+    appendToDisplay(num);
   }
+}
 
-  // second operand
-  if (target.classList.contains("num") && !waitingSecondOperand) {
-    secondOperand === null || secondOperand === "0"
-      ? (secondOperand = target.value)
-      : (secondOperand += target.value);
-    populateDisplay(target.value);
-    console.log(secondOperand);
-    return;
-  }
+function handleOperator(op) {
+  if (state.operator && !state.waitingSecondOperand && state.secondOperand) return;
+  if (!state.firstOperand) state.firstOperand = "0";
+  state.operator = op;
+  state.waitingSecondOperand = false;
+  appendToDisplay(op);
+}
 
-  // equal selected
-  if (target.classList.contains("equal")) {
-    if (firstOperand == null || secondOperand == null || operator == null)
-      return;
+function handleEqual() {
+  if (!state.firstOperand || !state.secondOperand || !state.operator) return;
+  let result = operate(
+    state.operator,
+    parseFloat(state.firstOperand),
+    parseFloat(state.secondOperand)
+  );
+  if (hasMoreThanTwoDecimals(result)) result = Number(result.toFixed(2));
+  updateDisplay(result);
+  state.firstOperand = result.toString();
+  state.secondOperand = null;
+  state.operator = null;
+  state.waitingSecondOperand = true;
+  state.isResult = true;
+}
 
-    result = operate(
-      operator,
-      parseFloat(firstOperand),
-      parseFloat(secondOperand)
-    );
-
-    // check first if needed to be rounded
-    if (hasMoreThanTwoDecimals(result)) {
-      result = Number(result.toFixed(2));
-      populateDisplay(result);
-    } else {
-      populateDisplay(result);
+function handleDecimal() {
+  const decimalChar = ".";
+  if (state.waitingSecondOperand) {
+    if (!state.firstOperand || state.firstOperand === "0") {
+      state.firstOperand = "0.";
+      appendToDisplay("0.");
+    } else if (!state.firstOperand.includes(decimalChar)) {
+      state.firstOperand += decimalChar;
+      appendToDisplay(decimalChar);
     }
-
-    // next set of expression with the result as firstOperand
-    firstOperand = result.toString();
-    firstOperandDisplay.valueFirst = firstOperand;
-    secondOperand = null;
-    operator = null;
-    result = null;
-    waitingSecondOperand = true;
-    isAlreadyResult = true;
-    return;
+  } else {
+    if (!state.secondOperand || state.secondOperand === "0") {
+      state.secondOperand = "0.";
+      appendToDisplay("0.");
+    } else if (!state.secondOperand.includes(decimalChar)) {
+      state.secondOperand += decimalChar;
+      appendToDisplay(decimalChar);
+    }
   }
+}
 
-  // stops the other operators to trigger when already complete expression
-  if (target.classList.contains("operator") && secondOperand != null) return;
-});
+function handleSign() {
+  if (state.waitingSecondOperand) {
+    if (!state.firstOperand || state.firstOperand === "0") return;
+    state.firstOperand = toggleSign(state.firstOperand);
+    updateDisplay(state.firstOperand);
+  } else {
+    if (!state.secondOperand || state.secondOperand === "0") return;
+    state.secondOperand = toggleSign(state.secondOperand);
+    updateDisplay(
+      state.firstOperand + state.operator + state.secondOperand
+    );
+  }
+}
 
-// Checker if has More Than TwoDecimals
+function toggleSign(operand) {
+  return (parseFloat(operand) * -1).toString();
+}
+
+function handlePercentage() {
+  if (state.waitingSecondOperand) {
+    state.firstOperand = toPercentage(state.firstOperand);
+    state.isPercentageFirstOperand = true;
+    appendToDisplay("%");
+  } else {
+    state.secondOperand = toPercentage(
+      state.secondOperand,
+      state.firstOperand,
+      state.isPercentageFirstOperand
+    );
+    appendToDisplay("%");
+  }
+}
+
+function toPercentage(operand, base = null, isFirst = true) {
+  if (!operand) return "0";
+  if (isFirst) return (parseFloat(operand) / 100).toString();
+  return ((parseFloat(operand) / 100) * parseFloat(base)).toString();
+}
+
+function handleBackspace() {
+  if (display.value.length === 1) {
+    updateDisplay("0");
+  } else {
+    updateDisplay(display.value.slice(0, -1));
+  }
+  if (state.waitingSecondOperand && state.firstOperand) {
+    state.firstOperand =
+      state.firstOperand.length === 1
+        ? null
+        : state.firstOperand.slice(0, -1);
+    state.isResult = false;
+  } else if (!state.waitingSecondOperand && state.secondOperand) {
+    state.secondOperand =
+      state.secondOperand.length === 1
+        ? null
+        : state.secondOperand.slice(0, -1);
+  } else if (state.operator && !state.secondOperand) {
+    state.operator = null;
+  }
+}
+
 function hasMoreThanTwoDecimals(num) {
   return num % 1 !== 0 && num.toString().split(".")[1]?.length > 2;
 }
 
-// Updates the Display
-const display = document.querySelector(".display");
-let pattern = /[+\-÷x]/g;
-function populateDisplay(updateDisplay) {
-  // for zero value firstOperand and not operator
-  if (display.value === "0" && updateDisplay != operator) {
-    display.value = updateDisplay;
-    console.log(updateDisplay);
-    return;
-  }
-  if (isAlreadyResult) {
-    display.value += updateDisplay;
-    console.log(updateDisplay);
-    isAlreadyResult = false;
-    return;
-  }
-  // for secondOperand zero first value
-  else if (
-    display.value.slice(-1) === "0" &&
-    !waitingSecondOperand &&
-    secondOperand.length == 1
-  ) {
-    let firstOperandOperator = display.value.slice(0, -1);
-    let lastOperand = display.value.slice(-1);
-    let replaceZero = lastOperand.replace(/0/, updateDisplay);
-    display.value = firstOperandOperator + replaceZero;
-    console.log(updateDisplay);
-    return;
-  }
-  // for result
-  else if (result !== null) {
-    display.value = updateDisplay;
-    console.log(result);
-    return;
-  }
-  // for replacing operator
-  else if (pattern.test(display.value.slice(-1)) && secondOperand == null) {
-    let first = display.value.slice(0, -1);
-    let str = display.value.slice(-1);
-    let replacedStr = str.replace(pattern, updateDisplay);
-    display.value = first + replacedStr;
-    console.log(updateDisplay);
-    return;
-  }
-  // for operands and operator
-  else {
-    display.value += updateDisplay;
-    console.log(updateDisplay);
-  }
-}
+// Event Listeners
+allClear.addEventListener("click", resetCalculator);
 
-// Back button
-const back = document.querySelector(".back");
-back.addEventListener("click", () => {
-  // for string display
-  display.value.length == 1
-    ? (display.value = "0")
-    : (display.value = display.value.slice(0, -1));
+back.addEventListener("click", handleBackspace);
 
-  // for operands and operator variable
-  if (waitingSecondOperand && firstOperand != null) {
-    firstOperand.length == 1
-      ? (firstOperand = null)
-      : (firstOperand = firstOperand.slice(0, -1));
-    isAlreadyResult = false;
-  } else if (!waitingSecondOperand && secondOperand != null) {
-    secondOperand.length == 1
-      ? (secondOperand = null)
-      : (secondOperand = secondOperand.slice(0, -1));
-  } else if (operator != null && secondOperand == null) operator = null;
+decimal.addEventListener("click", handleDecimal);
+
+sign.addEventListener("click", handleSign);
+
+percentage.addEventListener("click", handlePercentage);
+
+keys.addEventListener("click", (e) => {
+  const { target } = e;
+  if (!target.matches("button")) return;
+  if (target.classList.contains("num")) {
+    handleNumber(target.value);
+  } else if (target.classList.contains("operator")) {
+    handleOperator(target.value);
+  } else if (target.classList.contains("equal")) {
+    handleEqual();
+  }
 });
 
-// Decimal button
-const decimal = document.querySelector(".decimal");
-decimal.addEventListener("click", (e) => {
-  const decimalValue = e.target.value;
-
-  if (waitingSecondOperand) {
-    // Handling firstOperand when waiting for second operand
-    if (firstOperand == null || firstOperand === "0") {
-      firstOperand = "0" + decimalValue;
-    } else if (!firstOperand.includes(decimalValue)) {
-      firstOperand += decimalValue;
-      populateDisplay(decimalValue);
-      return;
-    } else {
-      return; // prevent multiple decimals
-    }
-    populateDisplay(firstOperand);
-    return;
-  }
-
-  // Handling secondOperand when inputting second number
-  if (secondOperand == null || secondOperand === "0") {
-    secondOperand = "0" + decimalValue;
-  } else if (!secondOperand.includes(decimalValue)) {
-    secondOperand += decimalValue;
-    populateDisplay(decimalValue);
-    return;
-  } else {
-    return; // prevent multiple decimals
-  }
-  populateDisplay(secondOperand);
-});
-
-// +/- button functionality
-const sign = document.querySelector(".sign");
-sign.addEventListener("click", () => {
-  let displayValue;
-  // check wether firstOperand or secondOperand
-  if (waitingSecondOperand) {
-    firstOperand = addSign("first");
-    displayValue = firstOperand;
-  } else {
-    secondOperand = addSign("second");
-    displayValue = secondOperand;
-  }
-  setDisplaySign(displayValue);
-});
-// function to handle the input sign
-function addSign(operandType) {
-  let operand = operandType === "first" ? firstOperand : secondOperand;
-  operand = (parseFloat(operand) * -1).toString();
-  return operand;
-}
-
-// Exclusive display value handling
-function setDisplaySign(valueUpdate) {
-  //add stopping for 0 value
-  if (firstOperand === "0") return;
-
-  if (waitingSecondOperand) {
-    //logic for firstOperand display and remove negative sign
-    if (!firstOperand.includes("-")) {
-      display.value = `${valueUpdate}`;
-      firstOperandDisplay.valueFirst = firstOperand;
-    } else {
-      display.value = `(${valueUpdate})`;
-      firstOperandDisplay.valueFirst = `(${firstOperand})`;
-    }
-  } else {
-    //for secondOperand before combining them
-    if (!secondOperand.includes("-")) {
-      display.value =
-        firstOperandDisplay.valueFirst + operator + `${valueUpdate}`;
-    } else {
-      display.value =
-        firstOperandDisplay.valueFirst + operator + `(${valueUpdate})`;
-    }
-  }
-}
-
-// Percentage button
-const percentage = document.querySelector(".percentage");
-percentage.addEventListener("click", () => {
-  if (waitingSecondOperand) {
-    firstOperand = addPercentage("first");
-    isPercentageFirstOperand = true;
-  } else {
-    secondOperand = addPercentage("second");
-  }
-  populateDisplay("%");
-});
-// function to handle the input percentage
-function addPercentage(operandType) {
-  let operand = operandType === "first" ? firstOperand : secondOperand;
-  if (
-    operandType === "first" ||
-    (isPercentageFirstOperand && secondOperand === operand)
-  ) {
-    operand = (parseFloat(operand) / 100).toString();
-  } else {
-    operand = ((parseFloat(operand) / 100) * firstOperand).toString();
-  }
-  return operand;
-}
+// Initialize display
+resetCalculator();
