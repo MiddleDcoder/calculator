@@ -20,7 +20,7 @@ const percentage = document.querySelector(".percentage");
 const operations = {
   "+": (a, b) => a + b,
   "-": (a, b) => a - b,
-  "x": (a, b) => a * b,
+  x: (a, b) => a * b,
   "÷": (a, b) => a / b,
 };
 
@@ -55,20 +55,18 @@ function appendToDisplay(value) {
 
 function handleNumber(num) {
   if (state.waitingSecondOperand) {
-    state.firstOperand = state.firstOperand && !state.isResult
-      ? state.firstOperand + num
-      : num;
+    state.firstOperand =
+      state.firstOperand && !state.isResult ? state.firstOperand + num : num;
     appendToDisplay(num);
   } else {
-    state.secondOperand = state.secondOperand
-      ? state.secondOperand + num
-      : num;
+    state.secondOperand = state.secondOperand ? state.secondOperand + num : num;
     appendToDisplay(num);
   }
 }
 
 function handleOperator(op) {
-  if (state.operator && !state.waitingSecondOperand && state.secondOperand) return;
+  if (state.operator && !state.waitingSecondOperand && state.secondOperand)
+    return;
   if (!state.firstOperand) state.firstOperand = "0";
   state.operator = op;
   state.waitingSecondOperand = false;
@@ -120,9 +118,7 @@ function handleSign() {
   } else {
     if (!state.secondOperand || state.secondOperand === "0") return;
     state.secondOperand = toggleSign(state.secondOperand);
-    updateDisplay(
-      state.firstOperand + state.operator + state.secondOperand
-    );
+    updateDisplay(state.firstOperand + state.operator + state.secondOperand);
   }
 }
 
@@ -159,9 +155,7 @@ function handleBackspace() {
   }
   if (state.waitingSecondOperand && state.firstOperand) {
     state.firstOperand =
-      state.firstOperand.length === 1
-        ? null
-        : state.firstOperand.slice(0, -1);
+      state.firstOperand.length === 1 ? null : state.firstOperand.slice(0, -1);
     state.isResult = false;
   } else if (!state.waitingSecondOperand && state.secondOperand) {
     state.secondOperand =
