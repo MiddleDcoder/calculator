@@ -45,11 +45,11 @@ function updateDisplay(value) {
 }
 
 function appendToDisplay(value) {
-  if (display.value === "0" || state.isResult) {
+  if (display.value === "0") {
     updateDisplay(value);
-    state.isResult = false;
   } else {
     updateDisplay(display.value + value);
+    state.isResult = false;
   }
 }
 
@@ -87,6 +87,7 @@ function handleEqual() {
   state.operator = null;
   state.waitingSecondOperand = true;
   state.isResult = true;
+  console.log(result);
 }
 
 function handleDecimal() {
