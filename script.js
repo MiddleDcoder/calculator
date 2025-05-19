@@ -65,8 +65,21 @@ function handleNumber(num) {
 }
 
 function handleOperator(op) {
+  const operators = ["+", "-", "x", "÷"];
+  const lastChar = display.value.slice(-1);
+
+  // If last char is an operator, replace it
+  if (operators.includes(lastChar)) {
+    updateDisplay(display.value.slice(0, -1) + op);
+    state.operator = op;
+    state.isResult = false;
+    return;
+  }
+
+  // Prevent adding operator if already set and waiting for second operand
   if (state.operator && !state.waitingSecondOperand && state.secondOperand)
     return;
+
   if (!state.firstOperand) state.firstOperand = "0";
   state.operator = op;
   state.waitingSecondOperand = false;
