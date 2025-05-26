@@ -63,7 +63,12 @@ function handleNumber(num) {
         : num;
     appendToDisplay(num);
   } else {
-    state.secondOperand = state.secondOperand ? state.secondOperand + num : num;
+    state.secondOperand =
+      num === "0" && state.secondOperand === "0"
+        ? num
+        : (state.secondOperand = state.secondOperand
+            ? state.secondOperand + num
+            : num);
     appendToDisplay(num);
   }
 }
