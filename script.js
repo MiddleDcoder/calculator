@@ -56,7 +56,11 @@ function appendToDisplay(value) {
 function handleNumber(num) {
   if (state.waitingSecondOperand) {
     state.firstOperand =
-      state.firstOperand && !state.isResult ? state.firstOperand + num : num;
+      num === "0" && state.firstOperand === "0"
+        ? num
+        : state.firstOperand && !state.isResult
+        ? state.firstOperand + num
+        : num;
     appendToDisplay(num);
   } else {
     state.secondOperand = state.secondOperand ? state.secondOperand + num : num;
