@@ -64,11 +64,11 @@ function handleNumber(num) {
     appendToDisplay(num);
   } else {
     state.secondOperand =
-      num === "0" && state.secondOperand === "0"
+      num === "0" && state.firstOperand === "0"
         ? num
-        : (state.secondOperand = state.secondOperand
-            ? state.secondOperand + num
-            : num);
+        : state.secondOperand
+        ? state.secondOperand + num
+        : num;
     appendToDisplay(num);
   }
 }
