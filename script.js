@@ -55,20 +55,13 @@ function appendToDisplay(value) {
 
 function handleNumber(num) {
   if (state.waitingSecondOperand) {
+    if (num === "0" && state.firstOperand === "0") return;
     state.firstOperand =
-      num === "0" && state.firstOperand === "0"
-        ? num
-        : state.firstOperand && !state.isResult
-        ? state.firstOperand + num
-        : num;
+      state.firstOperand && !state.isResult ? state.firstOperand + num : num;
     appendToDisplay(num);
   } else {
-    state.secondOperand =
-      num === "0" && state.firstOperand === "0"
-        ? num
-        : state.secondOperand
-        ? state.secondOperand + num
-        : num;
+    if (num === "0" && state.secondOperand === "0") return;
+    state.secondOperand = state.secondOperand ? state.secondOperand + num : num;
     appendToDisplay(num);
   }
 }
@@ -123,7 +116,7 @@ function handleDecimal() {
       appendToDisplay(decimalChar);
     }
   } else {
-    if (!state.secondOperand || state.secondOperand === "0") {
+    if (!state.secondOperand) {
       state.secondOperand = "0.";
       appendToDisplay("0.");
     } else if (!state.secondOperand.includes(decimalChar)) {
