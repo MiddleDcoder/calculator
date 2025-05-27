@@ -82,7 +82,14 @@ function handleOperator(op) {
   if (state.operator && !state.waitingSecondOperand && state.secondOperand)
     return;
 
-  if (!state.firstOperand) state.firstOperand = "0";
+  if (!state.firstOperand) {
+    state.firstOperand = "0";
+    updateDisplay(state.firstOperand + op);
+    state.operator = op;
+    state.waitingSecondOperand = false;
+    state.isResult = false;
+    return;
+  }
   state.operator = op;
   state.waitingSecondOperand = false;
   state.isResult = false;
