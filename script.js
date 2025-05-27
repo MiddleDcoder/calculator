@@ -151,6 +151,7 @@ function handlePercentage() {
   if (state.waitingSecondOperand) {
     state.firstOperand = toPercentage(state.firstOperand);
     state.isPercentageFirstOperand = true;
+    if (state.isResult) return updateDisplay(display.value + "%");
     appendToDisplay("%");
   } else {
     state.secondOperand = toPercentage(
