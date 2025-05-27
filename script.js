@@ -69,12 +69,11 @@ function handleNumber(num) {
 function handleOperator(op) {
   const operators = ["+", "-", "x", "÷"];
   const lastChar = display.value.slice(-1);
+  state.operator = op;
 
   // If last char is an operator, replace it
   if (operators.includes(lastChar)) {
     updateDisplay(display.value.slice(0, -1) + op);
-    state.operator = op;
-    state.isResult = false;
     return;
   }
 
@@ -82,15 +81,14 @@ function handleOperator(op) {
   if (state.operator && !state.waitingSecondOperand && state.secondOperand)
     return;
 
-  if (!state.firstOperand) {
+  // When first operand no value yet or zero set to zero and add operator
+  if (!state.firstOperand || state.firstOperand === "0") {
     state.firstOperand = "0";
-    updateDisplay(state.firstOperand + op);
-    state.operator = op;
     state.waitingSecondOperand = false;
     state.isResult = false;
+    updateDisplay(state.firstOperand + op);
     return;
   }
-  state.operator = op;
   state.waitingSecondOperand = false;
   state.isResult = false;
   appendToDisplay(op);
